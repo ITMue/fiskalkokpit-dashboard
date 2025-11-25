@@ -1,13 +1,21 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="de">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta charset="UTF-8" />
   <title>FiskalKokpit – Login & Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
       background: #020617;
       color: #f9fafb;
       min-height: 100vh;
@@ -18,61 +26,65 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
       padding: 20px;
     }
 
     .login-box {
       width: 100%;
       max-width: 420px;
-      background: #0f172a;
-      padding: 32px;
+      background: #020617;
+      padding: 28px 24px 26px;
       border-radius: 20px;
-      border: 1px solid #1e293b;
-      box-shadow: 0 0 40px rgba(0,0,0,0.4);
+      border: 1px solid #1f2937;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.6);
     }
 
     .login-title {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 700;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .login-sub {
       font-size: 13px;
-      color: #94a3b8;
+      color: #9ca3af;
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 24px;
     }
 
     .input-box {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      margin-bottom: 24px;
+      gap: 14px;
+      margin-bottom: 20px;
     }
 
     .input-field {
-      padding: 12px 14px;
-      background: #1e293b;
-      border: 1px solid #334155;
+      padding: 11px 13px;
+      background: #020617;
+      border: 1px solid #374151;
       border-radius: 10px;
       color: #f1f5f9;
       font-size: 14px;
     }
 
+    .input-field::placeholder {
+      color: #6b7280;
+    }
+
     .login-btn {
       width: 100%;
-      padding: 12px 16px;
+      padding: 11px 16px;
       background: #22c55e;
-      color: #0f172a;
+      color: #022c22;
       border: none;
-      border-radius: 10px;
+      border-radius: 999px;
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .login-btn:hover { opacity: .9; }
@@ -80,95 +92,114 @@
     .login-small-text {
       text-align: center;
       font-size: 12px;
-      color: #64748b;
+      color: #6b7280;
     }
 
     /* --- DASHBOARD LAYOUT --- */
     #dashboard {
       display: none;
-      flex-direction: row;
-      height: 100vh;
+      min-height: 100vh;
+    }
+
+    .dashboard-shell {
+      display: flex;
+      min-height: 100vh;
     }
 
     .sidebar {
-      width: 230px;
-      background: #0f172a;
-      border-right: 1px solid #1e293b;
-      padding: 20px;
+      width: 240px;
+      background: #020617;
+      border-right: 1px solid #111827;
+      padding: 18px 18px 14px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
       justify-content: space-between;
     }
+
     .brand-block {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
+
     .company-row {
       display: flex;
       align-items: center;
       gap: 10px;
     }
+
     .company-logo {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 999px;
       background: radial-gradient(circle at 30% 30%, #4ade80, #16a34a);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       color: #022c22;
+      flex-shrink: 0;
     }
+
     .company-name {
       font-size: 15px;
       font-weight: 600;
     }
+
     .company-sub {
       font-size: 11px;
-      color: #94a3b8;
+      color: #9ca3af;
     }
+
     .nav {
       display: flex;
       flex-direction: column;
       gap: 6px;
       margin-top: 10px;
     }
+
     .nav-item {
-      padding: 10px 12px;
+      padding: 8px 10px;
       border-radius: 8px;
       cursor: pointer;
       color: #cbd5e1;
-      font-size: 14px;
+      font-size: 13px;
     }
-    .nav-item.active, .nav-item:hover {
-      background: #1e293b;
-      color: #f1f5f9;
+
+    .nav-item.active,
+    .nav-item:hover {
+      background: #020617;
+      border: 1px solid #22c55e33;
+      color: #f9fafb;
     }
+
     .powered {
       font-size: 10px;
-      color: #64748b;
-      border-top: 1px solid #1e293b;
+      color: #6b7280;
+      border-top: 1px solid #111827;
       padding-top: 10px;
+      margin-top: 6px;
     }
+
     .powered span {
       font-weight: 600;
       color: #e5e7eb;
     }
 
-    .content {
+    .dashboard-main {
       flex: 1;
-      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
     }
 
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
-      gap: 16px;
+      padding: 12px 18px 0;
+      gap: 10px;
     }
 
     .top-left {
@@ -177,75 +208,82 @@
       gap: 4px;
     }
 
-    .top-left small {
-      font-size: 11px;
-      color: #94a3b8;
+    .page-title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .page-subtitle {
+      font-size: 12px;
+      color: #9ca3af;
     }
 
     .lang-box {
-      padding: 6px 12px;
-      background: #0f172a;
-      border: 1px solid #1e293b;
+      padding: 6px 10px;
+      background: #020617;
+      border: 1px solid #111827;
       border-radius: 999px;
       font-size: 12px;
       display: flex;
       align-items: center;
       gap: 6px;
+      color: #e5e7eb;
     }
 
-    select {
-      background: transparent;
-      border: none;
-      color: #e2e8f0;
-      font-size: 12px;
-      cursor: pointer;
+    .content {
+      padding: 14px 18px 20px;
     }
 
-    /* Dashboard metrics */
     .metrics-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
     }
 
     .metric-card {
-      background: #0f172a;
-      padding: 16px;
-      border-radius: 16px;
-      border: 1px solid #1e293b;
+      background: #020617;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid #111827;
     }
 
     .metric-label {
       font-size: 12px;
-      color: #94a3b8;
+      color: #9ca3af;
     }
 
     .metric-value {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 600;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .chart-box {
-      background: #0f172a;
-      padding: 20px;
-      border-radius: 16px;
-      border: 1px solid #1e293b;
-      height: 280px;
+      background: #020617;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid #111827;
+      height: 230px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #64748b;
-      margin-bottom: 24px;
+      color: #6b7280;
+      margin-bottom: 18px;
       font-size: 13px;
+      text-align: center;
     }
 
     .table-box {
-      background: #0f172a;
-      border-radius: 16px;
-      border: 1px solid #1e293b;
-      padding: 20px;
+      background: #020617;
+      border-radius: 14px;
+      border: 1px solid #111827;
+      padding: 14px;
+    }
+
+    .table-box h3 {
+      margin: 0 0 10px;
+      font-size: 14px;
     }
 
     table {
@@ -256,45 +294,45 @@
     }
 
     th, td {
-      padding: 10px 8px;
-      border-bottom: 1px solid #1e293b;
+      padding: 8px 6px;
+      border-bottom: 1px solid #0f172a;
     }
 
     th {
       text-align: left;
-      color: #94a3b8;
+      color: #9ca3af;
       font-weight: 500;
     }
 
     /* Upload section */
     .upload-box {
-      background: #0f172a;
-      border-radius: 16px;
-      border: 1px dashed #1e293b;
-      padding: 24px;
+      background: #020617;
+      border-radius: 14px;
+      border: 1px dashed #1f2937;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      margin-bottom: 18px;
+      gap: 10px;
+      margin-bottom: 14px;
       text-align: center;
       color: #cbd5e1;
     }
 
     .upload-title {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
     }
 
     .upload-sub {
       font-size: 12px;
-      color: #94a3b8;
+      color: #9ca3af;
     }
 
     .upload-btn {
-      margin-top: 6px;
-      padding: 10px 16px;
+      margin-top: 4px;
+      padding: 9px 14px;
       border-radius: 999px;
       border: none;
       background: #22c55e;
@@ -306,60 +344,69 @@
 
     .upload-note {
       font-size: 11px;
-      color: #64748b;
-      margin-bottom: 16px;
+      color: #6b7280;
+      margin-bottom: 12px;
     }
 
     .upload-history-title {
-      font-size: 14px;
-      margin-bottom: 8px;
+      font-size: 13px;
+      margin-bottom: 6px;
     }
-      /* Mobil uyumlu görünüm için medya sorguları */
+
+    /* Hamburger & mobile */
+    .hamburger {
+      display: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid #111827;
+      background: #020617;
+      color: #e5e7eb;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .company-inline-mobile {
+      display: none;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.7);
+      z-index: 30;
+    }
+
+    .sidebar.mobile-open {
+      transform: translateX(0);
+    }
+
+    /* Responsive */
     @media (max-width: 1024px) {
-      #dashboard {
-        height: auto;
-      }
-      .content {
-        padding: 16px;
+      .metrics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
 
     @media (max-width: 768px) {
-      body {
-        min-height: 0;
-      }
-
-      #dashboard {
+      .dashboard-shell {
         flex-direction: column;
       }
 
       .sidebar {
-        width: 100%;
-        flex-direction: row;
-        align-items: center;
-        padding: 12px 16px;
-        gap: 12px;
-      }
-
-      .brand-block {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-      }
-
-      .nav {
-        flex-direction: row;
-        margin-top: 0;
-        gap: 4px;
-        overflow-x: auto;
-        padding-bottom: 4px;
-      }
-
-      .nav-item {
-        white-space: nowrap;
-        font-size: 12px;
-        padding: 8px 10px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 40;
+        transform: translateX(-100%);
+        transition: transform 0.18s ease-out;
+        width: 230px;
       }
 
       .powered {
@@ -367,31 +414,19 @@
       }
 
       .top-bar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
+        padding: 10px 12px 4px;
       }
 
       .content {
-        padding: 14px;
+        padding: 10px 12px 16px;
       }
 
-      .metrics-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+      .hamburger {
+        display: inline-flex;
       }
 
-      .chart-box {
-        height: 220px;
-      }
-
-      .table-box {
-        padding: 14px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .login-box {
-        padding: 24px 20px;
+      .company-inline-mobile {
+        display: flex;
       }
 
       .metrics-grid {
@@ -402,13 +437,30 @@
         height: 200px;
       }
 
-      .company-name {
-        font-size: 14px;
+      .sidebar-backdrop.show {
+        display: block;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-box {
+        padding: 24px 18px 22px;
       }
 
-      .lang-box {
-        width: 100%;
-        justify-content: space-between;
+      .login-title {
+        font-size: 22px;
+      }
+
+      .page-title {
+        font-size: 18px;
+      }
+
+      .metric-value {
+        font-size: 18px;
+      }
+
+      .table-box {
+        padding: 12px;
       }
     }
   </style>
@@ -422,7 +474,7 @@
       <div class="login-sub">Melden Sie sich bei Ihrem Analyse-Assistenten an</div>
 
       <div class="input-box">
-        <input class="input-field" id="email" type="email" placeholder="Ihre E‑Mail‑Adresse" />
+        <input class="input-field" id="email" type="email" placeholder="Ihre E-Mail-Adresse" />
         <input class="input-field" id="password" type="password" placeholder="Passwort" />
       </div>
 
@@ -431,243 +483,170 @@
     </div>
   </div>
 
-
   <!-- DASHBOARD -->
   <div id="dashboard">
-    <div style="display:flex; width:100%; height:100%;">
-      <!-- Sidebar -->
-      <div class="sidebar">
+    <div class="dashboard-shell">
+      <div class="sidebar" id="sidebar">
         <div class="brand-block">
           <div class="company-row">
             <div class="company-logo">RD</div>
             <div>
-              <div class="company-name" id="company-name">Roni Döner Kebap</div>
-              <div class="company-sub" id="company-sub">Merkez Şube Dashboard</div>
+              <div class="company-name">Roni Döner Kebap</div>
+              <div class="company-sub">Zentrale Filiale · Dashboard</div>
             </div>
           </div>
           <div class="nav">
-            <div class="nav-item active" data-section="dashboard">📊 Dashboard</div>
-            <div class="nav-item" data-section="upload">📁 Dosya Yükle</div>
-            <div class="nav-item">📈 Analizler</div>
-            <div class="nav-item">🧾 Faturalar</div>
-            <div class="nav-item">⚙️ Ayarlar</div>
+            <div class="nav-item active" data-section="dashboard">📊 Übersicht</div>
+            <div class="nav-item" data-section="upload">📁 Datei-Upload</div>
+            <div class="nav-item">📈 Analysen (bald)</div>
+            <div class="nav-item">🧾 Belege (bald)</div>
+            <div class="nav-item">⚙️ Einstellungen (bald)</div>
           </div>
         </div>
         <div class="powered">
           powered by <span>FiskalKokpit · Fiscal.ai</span>
         </div>
       </div>
+      <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 
-      <!-- Content -->
-      <div class="content">
+      <div class="dashboard-main">
         <div class="top-bar">
           <div class="top-left">
-            <h1 id="page-title">Übersicht</h1>
-            <small id="page-subtitle">Monatliche Umsatz- und Gewinnübersicht für Roni Döner Kebap</small>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <button class="hamburger" id="hamburger-btn">☰</button>
+              <div class="company-inline-mobile">
+                <div class="company-logo" style="width:26px; height:26px; font-size:12px;">RD</div>
+                <div style="font-size:13px; font-weight:500;">Roni Döner Kebap</div>
+              </div>
+            </div>
+            <div class="page-title" id="page-title">Übersicht</div>
+            <div class="page-subtitle" id="page-subtitle">Monatliche Umsatz- und Gewinnübersicht für Roni Döner Kebap</div>
           </div>
           <div class="lang-box">
-            🌐 <span id="current-lang">Türkçe</span>
-            <select id="lang-selector">
-              <option value="tr">Türkçe</option>
-              <option value="de">Deutsch</option>
-              <option value="en">English</option>
-            </select>
+            🌐 Deutsch
           </div>
         </div>
 
-        <!-- DASHBOARD SECTION -->
-        <div id="section-dashboard">
-          <div class="metrics-grid">
-            <div class="metric-card">
-              <div class="metric-label" id="m1-label">Umsatz diesen Monat</div>
-              <div class="metric-value">€ 48.320</div>
+        <div class="content">
+          <!-- DASHBOARD SECTION -->
+          <div id="section-dashboard">
+            <div class="metrics-grid">
+              <div class="metric-card">
+                <div class="metric-label">Umsatz diesen Monat</div>
+                <div class="metric-value">€ 48.320</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Bruttogewinn</div>
+                <div class="metric-value">€ 18.940</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Gesamtbestellungen</div>
+                <div class="metric-value">1.384</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Bestseller</div>
+                <div class="metric-value">Döner Menü</div>
+              </div>
             </div>
-            <div class="metric-card">
-              <div class="metric-label" id="m2-label">Bruttogewinn</div>
-              <div class="metric-value">€ 18.940</div>
+
+            <div class="chart-box">
+              Umsatzdiagramm erscheint hier (Demo-Platzhalter für zukünftige Charts)
             </div>
-            <div class="metric-card">
-              <div class="metric-label" id="m3-label">Gesamtbestellungen</div>
-              <div class="metric-value">1.384</div>
-            </div>
-            <div class="metric-card">
-              <div class="metric-label" id="m4-label">Bestseller</div>
-              <div class="metric-value">Döner Menü</div>
+
+            <div class="table-box">
+              <h3>Letzte Transaktionen</h3>
+              <table>
+                <tr>
+                  <th>Datum</th>
+                  <th>Beschreibung</th>
+                  <th>Betrag</th>
+                </tr>
+                <tr>
+                  <td>12.02.2025</td>
+                  <td>Döner Menü Verkauf</td>
+                  <td>€ 8,90</td>
+                </tr>
+                <tr>
+                  <td>12.02.2025</td>
+                  <td>Getränkeverkauf</td>
+                  <td>€ 2,50</td>
+                </tr>
+                <tr>
+                  <td>11.02.2025</td>
+                  <td>Döner Dürüm Verkauf</td>
+                  <td>€ 7,50</td>
+                </tr>
+              </table>
             </div>
           </div>
 
-          <!-- Chart Placeholder -->
-          <div class="chart-box" id="chart-label">Umsatzdiagramm erscheint hier</div>
+          <!-- UPLOAD SECTION -->
+          <div id="section-upload" style="display:none;">
+            <div class="upload-box">
+              <div class="upload-title">Laden Sie Ihre Verkaufsdatei hoch</div>
+              <div class="upload-sub">Laden Sie hier Verkaufsberichte im Excel-, CSV- oder PDF-Format hoch.</div>
+              <button class="upload-btn">Datei auswählen / Hochladen (Demo)</button>
+            </div>
+            <div class="upload-note">In dieser Demo ist der Upload nur visuell. Im echten System werden Dateien sicher verarbeitet.</div>
 
-          <!-- Table -->
-          <div class="table-box">
-            <h3 id="table-title" style="margin-top:0; margin-bottom:12px;">Letzte Transaktionen</h3>
-            <table>
-              <tr>
-                <th id="th1">Datum</th>
-                <th id="th2">Beschreibung</th>
-                <th id="th3">Betrag</th>
-              </tr>
-              <tr>
-                <td>12.02.2025</td>
-                <td>Döner Menü Satışı</td>
-                <td>€ 8.90</td>
-              </tr>
-              <tr>
-                <td>12.02.2025</td>
-                <td>İçecek Satışı</td>
-                <td>€ 2.50</td>
-              </tr>
-              <tr>
-                <td>11.02.2025</td>
-                <td>Döner Dürüm Satışı</td>
-                <td>€ 7.50</td>
-              </tr>
-            </table>
+            <div class="table-box">
+              <div class="upload-history-title">Zuletzt hochgeladene Dateien (Beispiel)</div>
+              <table>
+                <tr>
+                  <th>Datum</th>
+                  <th>Dateiname</th>
+                  <th>Status</th>
+                </tr>
+                <tr>
+                  <td>12.02.2025</td>
+                  <td>roni-umsatz-woche06.xlsx</td>
+                  <td>Analysiert</td>
+                </tr>
+                <tr>
+                  <td>05.02.2025</td>
+                  <td>roni-umsatz-woche05.xlsx</td>
+                  <td>Analysiert</td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
-
-        <!-- UPLOAD SECTION -->
-        <div id="section-upload" style="display:none;">
-          <div class="upload-box">
-            <div class="upload-title">Laden Sie Ihre Verkaufsdatei hoch</div>
-            <div class="upload-sub">Laden Sie hier Verkaufsberichte im Excel-, CSV- oder PDF‑Format hoch.</div>
-            <button class="upload-btn">Datei auswählen / Hochladen (Demo)</button>
-          </div>
-          <div class="upload-note">In dieser Demo ist der Upload nur visuell. Im echten System werden Dateien sicher verarbeitet.</div>
-
-          <div class="table-box">
-            <div class="upload-history-title">Zuletzt hochgeladene Dateien (Beispiel)</div>
-            <table>
-              <tr>
-                <th>Tarih</th>
-                <th>Dosya adı</th>
-                <th>Durum</th>
-              </tr>
-              <tr>
-                <td>12.02.2025</td>
-                <td>roni-satis-hafta06.xlsx</td>
-                <td>Analysiert</td>
-              </tr>
-              <tr>
-                <td>05.02.2025</td>
-                <td>roni-satis-hafta05.xlsx</td>
-                <td>Analysiert</td>
-              </tr>
-            </table>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
 
   <script>
-    /* --- SIMPLE LOGIN SWITCH --- */
     function login() {
       document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'flex';
+      document.getElementById('dashboard').style.display = 'block';
     }
 
-    /* --- MULTILANG TEXTS FOR RONI DÖNER KEBAP --- */
-    const LANG = {
-      tr: {
-        page: "Genel Bakış",
-        pageSub: "Roni Döner Kebap için aylık satış ve kârlılık özeti",
-        m1: "Bu Ay Ciro",
-        m2: "Brüt Kâr",
-        m3: "Toplam Sipariş",
-        m4: "En Çok Satan",
-        chart: "Satış grafiği buraya gelecek",
-        table: "Son İşlemler",
-        th1: "Tarih",
-        th2: "Açıklama",
-        th3: "Tutar",
-        langLabel: "Türkçe",
-        subLabel: "Merkez Şube Dashboard"
-      },
-      de: {
-        page: "Übersicht",
-        pageSub: "Monatliche Umsatz- und Margenübersicht für Roni Döner Kebap",
-        m1: "Umsatz diesen Monat",
-        m2: "Bruttogewinn",
-        m3: "Gesamtbestellungen",
-        m4: "Bestseller",
-        chart: "Umsatzdiagramm erscheint hier",
-        table: "Letzte Transaktionen",
-        th1: "Datum",
-        th2: "Beschreibung",
-        th3: "Betrag",
-        langLabel: "Deutsch",
-        subLabel: "Zentrale Filiale Dashboard"
-      },
-      en: {
-        page: "Overview",
-        pageSub: "Monthly sales and profit summary for Roni Döner Kebap",
-        m1: "Revenue This Month",
-        m2: "Gross Profit",
-        m3: "Total Orders",
-        m4: "Best Seller",
-        chart: "Sales chart will be displayed here",
-        table: "Recent Transactions",
-        th1: "Date",
-        th2: "Description",
-        th3: "Amount",
-        langLabel: "English",
-        subLabel: "Headquarters Dashboard"
-      }
-    };
+    // Sidebar & mobile navigation
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    const hamburger = document.getElementById('hamburger-btn');
 
-    const selector = document.getElementById("lang-selector");
-    const currentLang = document.getElementById("current-lang");
-    const pageTitle = document.getElementById("page-title");
-    const pageSubtitle = document.getElementById("page-subtitle");
-    const m1 = document.getElementById("m1-label");
-    const m2 = document.getElementById("m2-label");
-    const m3 = document.getElementById("m3-label");
-    const m4 = document.getElementById("m4-label");
-    const chartLabel = document.getElementById("chart-label");
-    const tableTitle = document.getElementById("table-title");
-    const th1 = document.getElementById("th1");
-    const th2 = document.getElementById("th2");
-    const th3 = document.getElementById("th3");
-    const companySub = document.getElementById("company-sub");
-
-    function applyLang(langKey) {
-      const t = LANG[langKey] || LANG["en"];
-      pageTitle.textContent = t.page;
-      pageSubtitle.textContent = t.pageSub;
-      m1.textContent = t.m1;
-      m2.textContent = t.m2;
-      m3.textContent = t.m3;
-      m4.textContent = t.m4;
-      chartLabel.textContent = t.chart;
-      tableTitle.textContent = t.table;
-      th1.textContent = t.th1;
-      th2.textContent = t.th2;
-      th3.textContent = t.th3;
-      currentLang.textContent = t.langLabel;
-      companySub.textContent = t.subLabel;
-      selector.value = langKey;
+    function closeSidebar() {
+      sidebar.classList.remove('mobile-open');
+      backdrop.classList.remove('show');
     }
 
-    // başlangıçta tarayıcı dilini kontrol et
-    (function init() {
-      let browserLang = (navigator.language || navigator.userLanguage || "tr").toLowerCase();
-      let langKey = "en";
-      if (browserLang.startsWith("tr")) langKey = "tr";
-      else if (browserLang.startsWith("de")) langKey = "de";
-      applyLang(langKey);
-    })();
+    if (hamburger) {
+      hamburger.addEventListener('click', () => {
+        sidebar.classList.add('mobile-open');
+        backdrop.classList.add('show');
+      });
+    }
 
-    selector.addEventListener("change", (e) => {
-      applyLang(e.target.value);
-    });
+    if (backdrop) {
+      backdrop.addEventListener('click', closeSidebar);
+    }
 
-    // Sidebar sekmeleri: Dashboard <-> Dosya Yükle
-    const navItems = document.querySelectorAll('.nav-item');
+    // Navigation sections
+    const navItems = document.querySelectorAll('.nav-item[data-section]');
     const sectionDashboard = document.getElementById('section-dashboard');
     const sectionUpload = document.getElementById('section-upload');
+    const pageTitleEl = document.getElementById('page-title');
 
     navItems.forEach(item => {
       item.addEventListener('click', () => {
@@ -678,9 +657,13 @@
         if (sec === 'upload') {
           sectionDashboard.style.display = 'none';
           sectionUpload.style.display = 'block';
+          pageTitleEl.textContent = 'Datei-Upload';
+          closeSidebar();
         } else if (sec === 'dashboard') {
           sectionDashboard.style.display = 'block';
           sectionUpload.style.display = 'none';
+          pageTitleEl.textContent = 'Übersicht';
+          closeSidebar();
         }
       });
     });
