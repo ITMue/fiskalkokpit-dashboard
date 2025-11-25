@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <title>FiskalKokpit – Login & Dashboard</title>
+  <title>Roni Döner Kebap – FiskalKokpit Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
@@ -40,25 +40,44 @@
       box-shadow: 0 18px 40px rgba(0,0,0,0.6);
     }
 
-    .login-title {
-      font-size: 24px;
-      font-weight: 700;
+    .login-brand {
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 14px;
+    }
+
+    .login-brand-title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .login-brand-sub {
+      font-size: 11px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-top: 2px;
+    }
+
+    .login-title {
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 6px;
     }
 
     .login-sub {
       font-size: 13px;
       color: #9ca3af;
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .input-box {
       display: flex;
       flex-direction: column;
       gap: 14px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .input-field {
@@ -84,7 +103,7 @@
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .login-btn:hover { opacity: .9; }
@@ -93,6 +112,14 @@
       text-align: center;
       font-size: 12px;
       color: #6b7280;
+    }
+
+    .login-error {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #f97373;
+      text-align: center;
+      min-height: 16px;
     }
 
     /* --- DASHBOARD LAYOUT --- */
@@ -107,7 +134,7 @@
     }
 
     .sidebar {
-      width: 240px;
+      width: 260px;
       background: #020617;
       border-right: 1px solid #111827;
       padding: 18px 18px 14px;
@@ -129,8 +156,8 @@
     }
 
     .company-logo {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 999px;
       background: radial-gradient(circle at 30% 30%, #4ade80, #16a34a);
       display: flex;
@@ -143,8 +170,8 @@
     }
 
     .company-name {
-      font-size: 15px;
-      font-weight: 600;
+      font-size: 18px;
+      font-weight: 700;
     }
 
     .company-sub {
@@ -456,8 +483,8 @@
         padding: 24px 18px 22px;
       }
 
-      .login-title {
-        font-size: 22px;
+      .login-brand-title {
+        font-size: 24px;
       }
 
       .page-title {
@@ -479,15 +506,20 @@
   <!-- LOGIN SCREEN -->
   <div id="login-screen">
     <div class="login-box">
-      <div class="login-title">FiskalKokpit</div>
+      <div class="login-brand">
+        <div class="login-brand-title">Roni Döner Kebap</div>
+        <div class="login-brand-sub">FiskalKokpit · Finanzanalyse</div>
+      </div>
+      <div class="login-title">Anmeldung</div>
       <div class="login-sub" id="login-sub">Melden Sie sich bei Ihrem Analyse-Assistenten an</div>
 
       <div class="input-box">
-        <input class="input-field" id="email" type="email" placeholder="Ihre E-Mail-Adresse" />
+        <input class="input-field" id="username" type="text" placeholder="Benutzername (roni)" />
         <input class="input-field" id="password" type="password" placeholder="Passwort" />
       </div>
 
       <button class="login-btn" id="login-btn" onclick="login()">Anmelden</button>
+      <div class="login-error" id="login-error"></div>
       <div class="login-small-text" id="login-small-text">Noch kein Konto? Kontaktieren Sie uns zur Registrierung.</div>
     </div>
   </div>
@@ -525,7 +557,7 @@
               <button class="hamburger" id="hamburger-btn">☰</button>
               <div class="company-inline-mobile">
                 <div class="company-logo" style="width:26px; height:26px; font-size:12px;">RD</div>
-                <div style="font-size:13px; font-weight:500;" id="company-name-mobile">Roni Döner Kebap</div>
+                <div style="font-size:13px; font-weight:600;" id="company-name-mobile">Roni Döner Kebap</div>
               </div>
             </div>
             <div class="page-title" id="page-title">Übersicht</div>
@@ -630,19 +662,38 @@
   </div>
 
   <script>
-    // Tenant bazlı ülke ayarı: "DE" veya "TR" (veya başka bir ülke kodu)
-    const TENANT_COUNTRY = "DE"; // Roni için: Almanya'da ise DE, Türkiye'de ise TR yaparsın
+    // Tenant ülke ayarı: Roni için Almanya
+    const TENANT_COUNTRY = "DE";
 
     function login() {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+      const errorEl = document.getElementById('login-error');
+
+      const username = (usernameInput.value || '').trim().toLowerCase();
+      const password = passwordInput.value || '';
+
+      if (username === 'roni' && password === 'admin') {
+        errorEl.textContent = '';
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+      } else {
+        errorEl.textContent = 'Benutzername oder Passwort ist falsch.';
+      }
     }
+
+    // Enter tuşu ile login
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && document.getElementById('login-screen').style.display !== 'none') {
+        login();
+      }
+    });
 
     // Çok dilli metinler
     const TEXTS = {
       de: {
         loginSub: "Melden Sie sich bei Ihrem Analyse-Assistenten an",
-        emailPlaceholder: "Ihre E-Mail-Adresse",
+        userPlaceholder: "Benutzername (roni)",
         passwordPlaceholder: "Passwort",
         loginBtn: "Anmelden",
         loginSmall: "Noch kein Konto? Kontaktieren Sie uns zur Registrierung.",
@@ -675,12 +726,11 @@
         upThDate: "Datum",
         upThName: "Dateiname",
         upThStatus: "Status",
-        upStatusAnalysed: "Analysiert",
-        langLabel: "Deutsch"
+        upStatusAnalysed: "Analysiert"
       },
       tr: {
         loginSub: "Veri analiz asistanınıza giriş yapın",
-        emailPlaceholder: "E-posta adresiniz",
+        userPlaceholder: "Kullanıcı adı (roni)",
         passwordPlaceholder: "Şifre",
         loginBtn: "Giriş yap",
         loginSmall: "Hesabınız yok mu? Kayıt için bizimle iletişime geçin.",
@@ -713,12 +763,11 @@
         upThDate: "Tarih",
         upThName: "Dosya adı",
         upThStatus: "Durum",
-        upStatusAnalysed: "Analiz edildi",
-        langLabel: "Türkçe"
+        upStatusAnalysed: "Analiz edildi"
       },
       en: {
         loginSub: "Sign in to your analytics assistant",
-        emailPlaceholder: "Your email address",
+        userPlaceholder: "Username (roni)",
         passwordPlaceholder: "Password",
         loginBtn: "Sign in",
         loginSmall: "No account yet? Contact us to get started.",
@@ -751,8 +800,7 @@
         upThDate: "Date",
         upThName: "File name",
         upThStatus: "Status",
-        upStatusAnalysed: "Analysed",
-        langLabel: "English"
+        upStatusAnalysed: "Analysed"
       }
     };
 
@@ -763,7 +811,7 @@
 
       // Login
       document.getElementById('login-sub').textContent = t.loginSub;
-      document.getElementById('email').placeholder = t.emailPlaceholder;
+      document.getElementById('username').placeholder = t.userPlaceholder;
       document.getElementById('password').placeholder = t.passwordPlaceholder;
       document.getElementById('login-btn').textContent = t.loginBtn;
       document.getElementById('login-small-text').textContent = t.loginSmall;
@@ -773,8 +821,8 @@
 
       // Titles
       const pageTitleEl = document.getElementById('page-title');
-      const currentTitle = pageTitleEl.getAttribute('data-page') || 'dashboard';
-      pageTitleEl.textContent = currentTitle === 'upload' ? t.pageTitleUpload : t.pageTitleDash;
+      const currentPage = pageTitleEl.getAttribute('data-page') || 'dashboard';
+      pageTitleEl.textContent = currentPage === 'upload' ? t.pageTitleUpload : t.pageTitleDash;
       document.getElementById('page-subtitle').textContent = t.pageSubtitle;
       document.getElementById('company-name-mobile').textContent = document.getElementById('company-name').textContent;
 
@@ -815,7 +863,7 @@
       document.getElementById('up-row1-status').textContent = t.upStatusAnalysed;
       document.getElementById('up-row2-status').textContent = t.upStatusAnalysed;
 
-      // Select value sync
+      // Dil seçici sync
       langSelector.value = lang;
       document.documentElement.lang = lang;
     }
@@ -827,13 +875,13 @@
 
     function closeSidebar() {
       sidebar.classList.remove('mobile-open');
-      backdrop.classList.remove('show');
+      if (backdrop) backdrop.classList.remove('show');
     }
 
     if (hamburger) {
       hamburger.addEventListener('click', () => {
         sidebar.classList.add('mobile-open');
-        backdrop.classList.add('show');
+        if (backdrop) backdrop.classList.add('show');
       });
     }
 
@@ -862,7 +910,6 @@
           sectionUpload.style.display = 'none';
           pageTitleEl.setAttribute('data-page', 'dashboard');
         }
-        // Dil değiştiyse başlıklar da güncellensin
         applyLang(langSelector.value || 'de');
         closeSidebar();
       });
