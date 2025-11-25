@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>FiskalKokpit – Dashboard Vorschau</title>
+  <title>FiskalKokpit – Login & Dashboard</title>
   <style>
     body {
       margin: 0;
@@ -10,8 +10,85 @@
       background: #020617;
       color: #f9fafb;
       min-height: 100vh;
-      display: flex;
     }
+
+    /* --- LOGIN SCREEN --- */
+    #login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+      background: #0f172a;
+      padding: 32px;
+      border-radius: 20px;
+      border: 1px solid #1e293b;
+      box-shadow: 0 0 40px rgba(0,0,0,0.4);
+    }
+
+    .login-title {
+      font-size: 26px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .login-sub {
+      font-size: 13px;
+      color: #94a3b8;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .input-box {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .input-field {
+      padding: 12px 14px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      color: #f1f5f9;
+      font-size: 14px;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 12px 16px;
+      background: #22c55e;
+      color: #0f172a;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+
+    .login-btn:hover { opacity: .9; }
+
+    .login-small-text {
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    /* --- DASHBOARD LAYOUT --- */
+    #dashboard {
+      display: none;
+      flex-direction: row;
+      height: 100vh;
+    }
+
     .sidebar {
       width: 230px;
       background: #0f172a;
@@ -191,102 +268,131 @@
 </head>
 <body>
 
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="brand-block">
-      <div class="company-row">
-        <div class="company-logo">DK</div>
-        <div>
-          <div class="company-name" id="company-name">Döner König GmbH</div>
-          <div class="company-sub" id="company-sub">Merkez Şube Dashboard</div>
-        </div>
+  <!-- LOGIN SCREEN -->
+  <div id="login-screen">
+    <div class="login-box">
+      <div class="login-title">FiskalKokpit</div>
+      <div class="login-sub">Veri Analiz Asistanınıza giriş yapın</div>
+
+      <div class="input-box">
+        <input class="input-field" id="email" type="email" placeholder="E-posta adresiniz" />
+        <input class="input-field" id="password" type="password" placeholder="Şifre" />
       </div>
-      <div class="nav">
-        <div class="nav-item active">📊 Dashboard</div>
-        <div class="nav-item">📁 Dosya Yükle</div>
-        <div class="nav-item">📈 Analizler</div>
-        <div class="nav-item">🧾 Faturalar</div>
-        <div class="nav-item">⚙️ Ayarlar</div>
-      </div>
-    </div>
-    <div class="powered">
-      powered by <span>FiskalKokpit · Fiscal.ai</span>
+
+      <button class="login-btn" onclick="login()">Giriş Yap</button>
+      <div class="login-small-text">Hesabınız yok mu? Kayıt olmak için bize ulaşın.</div>
     </div>
   </div>
 
-  <!-- Content -->
-  <div class="content">
-    <div class="top-bar">
-      <div class="top-left">
-        <h1 id="page-title">Genel Bakış</h1>
-        <small id="page-subtitle">Döner König GmbH için aylık satış ve kârlılık özeti</small>
-      </div>
-      <div class="lang-box">
-        🌐 <span id="current-lang">Türkçe</span>
-        <select id="lang-selector">
-          <option value="tr">Türkçe</option>
-          <option value="de">Deutsch</option>
-          <option value="en">English</option>
-        </select>
-      </div>
-    </div>
 
-    <!-- Metrics Cards -->
-    <div class="metrics-grid">
-      <div class="metric-card">
-        <div class="metric-label" id="m1-label">Bu Ay Ciro</div>
-        <div class="metric-value">€ 48.320</div>
+  <!-- DASHBOARD -->
+  <div id="dashboard">
+    <div style="display:flex; width:100%; height:100%;">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="brand-block">
+          <div class="company-row">
+            <div class="company-logo">RD</div>
+            <div>
+              <div class="company-name" id="company-name">Roni Döner Kebap</div>
+              <div class="company-sub" id="company-sub">Merkez Şube Dashboard</div>
+            </div>
+          </div>
+          <div class="nav">
+            <div class="nav-item active">📊 Dashboard</div>
+            <div class="nav-item">📁 Dosya Yükle</div>
+            <div class="nav-item">📈 Analizler</div>
+            <div class="nav-item">🧾 Faturalar</div>
+            <div class="nav-item">⚙️ Ayarlar</div>
+          </div>
+        </div>
+        <div class="powered">
+          powered by <span>FiskalKokpit · Fiscal.ai</span>
+        </div>
       </div>
-      <div class="metric-card">
-        <div class="metric-label" id="m2-label">Brüt Kâr</div>
-        <div class="metric-value">€ 18.940</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label" id="m3-label">Toplam Sipariş</div>
-        <div class="metric-value">1.384</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label" id="m4-label">En Çok Satan</div>
-        <div class="metric-value">Döner Menü</div>
-      </div>
-    </div>
 
-    <!-- Chart Placeholder -->
-    <div class="chart-box" id="chart-label">Satış grafiği buraya gelecek</div>
+      <!-- Content -->
+      <div class="content">
+        <div class="top-bar">
+          <div class="top-left">
+            <h1 id="page-title">Genel Bakış</h1>
+            <small id="page-subtitle">Roni Döner Kebap için aylık satış ve kârlılık özeti</small>
+          </div>
+          <div class="lang-box">
+            🌐 <span id="current-lang">Türkçe</span>
+            <select id="lang-selector">
+              <option value="tr">Türkçe</option>
+              <option value="de">Deutsch</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+        </div>
 
-    <!-- Table -->
-    <div class="table-box">
-      <h3 id="table-title" style="margin-top:0; margin-bottom:12px;">Son İşlemler</h3>
-      <table>
-        <tr>
-          <th id="th1">Tarih</th>
-          <th id="th2">Açıklama</th>
-          <th id="th3">Tutar</th>
-        </tr>
-        <tr>
-          <td>12.02.2025</td>
-          <td>Döner Menü Satışı</td>
-          <td>€ 8.90</td>
-        </tr>
-        <tr>
-          <td>12.02.2025</td>
-          <td>İçecek Satışı</td>
-          <td>€ 2.50</td>
-        </tr>
-        <tr>
-          <td>11.02.2025</td>
-          <td>Döner Dürüm Satışı</td>
-          <td>€ 7.50</td>
-        </tr>
-      </table>
+        <!-- Metrics Cards -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label" id="m1-label">Bu Ay Ciro</div>
+            <div class="metric-value">€ 48.320</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label" id="m2-label">Brüt Kâr</div>
+            <div class="metric-value">€ 18.940</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label" id="m3-label">Toplam Sipariş</div>
+            <div class="metric-value">1.384</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label" id="m4-label">En Çok Satan</div>
+            <div class="metric-value">Döner Menü</div>
+          </div>
+        </div>
+
+        <!-- Chart Placeholder -->
+        <div class="chart-box" id="chart-label">Satış grafiği buraya gelecek</div>
+
+        <!-- Table -->
+        <div class="table-box">
+          <h3 id="table-title" style="margin-top:0; margin-bottom:12px;">Son İşlemler</h3>
+          <table>
+            <tr>
+              <th id="th1">Tarih</th>
+              <th id="th2">Açıklama</th>
+              <th id="th3">Tutar</th>
+            </tr>
+            <tr>
+              <td>12.02.2025</td>
+              <td>Döner Menü Satışı</td>
+              <td>€ 8.90</td>
+            </tr>
+            <tr>
+              <td>12.02.2025</td>
+              <td>İçecek Satışı</td>
+              <td>€ 2.50</td>
+            </tr>
+            <tr>
+              <td>11.02.2025</td>
+              <td>Döner Dürüm Satışı</td>
+              <td>€ 7.50</td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
+    /* --- SIMPLE LOGIN SWITCH --- */
+    function login() {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'flex';
+    }
+
+    /* --- MULTILANG TEXTS FOR RONI DÖNER KEBAP --- */
     const LANG = {
       tr: {
         page: "Genel Bakış",
-        pageSub: "Döner König GmbH için aylık satış ve kârlılık özeti",
+        pageSub: "Roni Döner Kebap için aylık satış ve kârlılık özeti",
         m1: "Bu Ay Ciro",
         m2: "Brüt Kâr",
         m3: "Toplam Sipariş",
@@ -301,7 +407,7 @@
       },
       de: {
         page: "Übersicht",
-        pageSub: "Monatliche Umsatz- und Margenübersicht für Döner König GmbH",
+        pageSub: "Monatliche Umsatz- und Margenübersicht für Roni Döner Kebap",
         m1: "Umsatz diesen Monat",
         m2: "Bruttogewinn",
         m3: "Gesamtbestellungen",
@@ -316,7 +422,7 @@
       },
       en: {
         page: "Overview",
-        pageSub: "Monthly sales and profit summary for Döner König GmbH",
+        pageSub: "Monthly sales and profit summary for Roni Döner Kebap",
         m1: "Revenue This Month",
         m2: "Gross Profit",
         m3: "Total Orders",
@@ -377,5 +483,6 @@
       applyLang(e.target.value);
     });
   </script>
+
 </body>
 </html>
